@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Apr 27 08:39:24 2025
+
+@author: tianr
+"""
+
+scikit-learn
+pandas
+numpy
+flask

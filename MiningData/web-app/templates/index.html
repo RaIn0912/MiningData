@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💊 癌症患者存活时间预测研究 🏥</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e9f5db;
+        }
+        #show-advice-btn {
+            display: none;
+        }
+        #advice {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-xl space-y-6 transform transition-transform hover:scale-105">
+        <h1 class="text-3xl font-bold text-center text-blue-900"><i class="fa-solid fa-stethoscope"></i> 癌症患者存活时间预测研究🏥</h1>
+        <p class="text-lg text-gray-700 text-center">请根据提示填写患者信息</p>
+        <form id="predictionForm" action="{{ url_for('predict')}}" method="post" class="space-y-4">
+            <select name="gender" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择性别</option>
+                <option value="0">女</option>
+                <option value="1">男</option>
+            </select>
+            <select name="race" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择种族</option>
+                <option value="1">白种人</option>
+                <option value="2">黑种人</option>
+                <option value="3">其他</option>
+            </select>
+            <select name="age" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择年龄范围</option>    
+                <option value="0">00</option>
+                <option value="2">01 - 04</option>
+                <option value="7">05 - 09</option>
+                <option value="12">10 - 14</option>
+                <option value="17">15 - 19</option>
+                <option value="22">20 - 24</option>
+                <option value="27">25 - 29</option>
+                <option value="32">30 - 34</option>
+                <option value="37">35 - 39</option>
+                <option value="42">40 - 44</option>
+                <option value="47">45 - 49</option>
+                <option value="52">50 - 54</option>
+                <option value="57">55 - 59</option>
+                <option value="62">60 - 64</option>
+                <option value="67">65 - 69</option>
+                <option value="72">70 - 74</option>
+                <option value="77">75 - 79</option>
+                <option value="82">80 - 84</option>
+                <option value="85">85+</option>
+            </select>
+            <select name="year" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择诊断年份</option>
+                <option value="2001">2001</option>
+                <option value="2002">2002</option>
+                <option value="2003">2003</option>
+                <option value="2004">2004</option>
+                <option value="2005">2005</option>
+                <option value="2006">2006</option>
+                <option value="2007">2007</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+            </select>
+            <input type="number" name="histologic_type" placeholder="病理学类型" required min="0" max=10000"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+            <select name="tumor_grade" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择肿瘤分级</option>
+                <option value="1">Well differentiated; Grade I</option>
+                <option value="2">Moderately differentiated; Grade II</option>
+                <option value="3">Poorly differentiated; Grade III</option>
+                <option value="4">Undifferentiated; anaplastic; Grade IV</option>
+            </select>
+            <select name="tumor_stage" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择肿瘤分期</option>
+                <option value="1">0</option>
+                <option value="1">0a</option>
+                <option value="1">0is</option>
+                <option value="2">I</option>
+                <option value="3">IA</option>
+                <option value="3">IA1</option>
+                <option value="3">IA2</option>
+                <option value="4">IB</option>
+                <option value="4">IB1</option>
+                <option value="4">IB2</option>
+                <option value="5">IC</option>
+                <option value="6">II</option>
+                <option value="7">IIA</option>
+                <option value="7">IIA1</option>
+                <option value="7">IIA2</option>
+                <option value="8">IIB</option>
+                <option value="9">IIC</option>
+                <option value="10">III</option>
+                <option value="11">IIIA</option>
+                <option value="12">IIIB</option>
+                <option value="13">IIIC</option>
+                <option value="13">IIIC1</option>
+                <option value="13">IIIC2</option>
+                <option value="14">IV</option>
+                <option value="15">IVA</option>
+                <option value="16">IVB</option>
+                <option value="17">IVC</option>
+            </select>
+            <input type="number" name="tumor_size" placeholder="肿瘤大小 (0 - 600)" required min="0" max="600"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+            <select name="distant_metastasis" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择远处转移情况</option>
+                <option value="00">00</option>
+                <option value="05">05</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="48">48</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="60">60</option>
+                <option value="65">65</option>
+                <option value="70">70</option>
+                <option value="75">75</option>
+                <option value="80">80</option>
+            </select>
+            <select name="primary_site_surgery" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择原发部位手术信息</option>
+                <option value="0">0</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="48">48</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+                <option value="60">60</option>
+                <option value="61">61</option>
+                <option value="62">62</option>
+                <option value="63">63</option>
+                <option value="64">64</option>
+                <option value="65">65</option>
+                <option value="66">66</option>
+                <option value="67">67</option>
+                <option value="68">68</option>
+                <option value="69">69</option>
+                <option value="70">70</option>
+                <option value="71">71</option>
+                <option value="72">72</option>
+                <option value="73">73</option>
+                <option value="74">74</option>
+                <option value="75">75</option>
+                <option value="76">76</option>
+                <option value="77">77</option>
+                <option value="78">78</option>
+                <option value="79">79</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+            </select>
+            <select name="model_type" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all duration-300">
+                <option value="">选择预测模型</option>
+                <option value="1">随机森林模型</option>
+                <option value="2">神经网络模型</option>
+            </select>
+            <div class="flex justify-center">
+                <button type="submit"
+                    class="btn bg-gradient-to-r from-green-500 to-teal-500 text-white py-3 px-6 rounded-lg shadow-md hover:from-green-600 hover:to-teal-600 focus:outline-none focus:ring focus:ring-green-300 transition-all duration-300">预测</button>
+            </div>
+        </form>
+        <div id="prediction-result" class="text-lg text-gray-700 text-center">
+            <span id="prediction-text">{{ prediction_text }}</span>
+            <button id="show-advice-btn" class="ml-4 bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring focus:ring-yellow-300" onclick="showAdvice()">相关诊疗建议</button>
+        </div>
+        <div id="advice" class="text-lg text-gray-700 text-center">
+            这里将显示相关诊疗建议。
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('predictionForm');
+        form.addEventListener('submit', function (event) {
+            const inputs = form.querySelectorAll('input, select');
+            let hasError = false;
+            inputs.forEach(input => {
+                if (input.value === '') {
+                    input.classList.add('error');
+                    hasError = true;
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+            if (hasError) {
+                event.preventDefault();
+                alert('请填写所有必填项！');
+            }
+        });
+    
+        function showAdvice() {
+            const adviceDiv = document.getElementById('advice');
+            if (adviceDiv.style.display === 'none') {
+                adviceDiv.style.display = 'block';
+            } else {
+                adviceDiv.style.display = 'none';
+            }
+        }
+    </script>
+    
+</body>
+
+</html>
